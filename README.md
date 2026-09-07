@@ -2,7 +2,7 @@
 
 ## Research Question
 
-Which metabolic gene deletions selectively impair predicted growth of pancreatic ductal adenocarcinoma (PDAC) cells while having substantially smaller effects on normal pancreatic cells?
+Which metabolic gene deletions selectively impair predicted growth of pancreatic ductal adenocarcinoma (PDAC) cells while having substantially smaller effects on normal pancreatic cells, and how robust are these vulnerabilities across different nutrient environments?
 
 ## Project Status
 
@@ -22,16 +22,45 @@ The current stage focuses on model setup, medium definition, baseline simulation
              ↓                  ↓
       PDAC-specific GEM    normal-specific GEM
              ↘                  ↙
+              nutrient environments
+        ┌──────────┬───────────┬──────────────┐
+        ↓          ↓           ↓              ↓
+     baseline   low glucose   lipid-rich   combined stress
+        └──────────┴───────────┴──────────────┘
+                       ↓
+             flux and growth analysis
+                       ↓
              single-gene deletions
                        ↓
                 growth comparison
                        ↓
           tumor-selective vulnerabilities
                        ↓
+          environmental robustness analysis
+                       ↓
                DepMap validation
 ```
 
 The aim is to identify metabolic gene dependencies that strongly impair predicted tumor growth while preserving metabolic functionality in the corresponding normal-cell model.
+
+An additional objective is to determine whether these predicted vulnerabilities remain stable across biologically plausible nutrient environments. This allows identification of metabolic dependencies that are either robust across conditions or specifically induced by nutrient limitation.
+
+## Nutrient Environment Analysis
+
+Different extracellular nutrient conditions will be simulated by modifying selected exchange-reaction constraints.
+
+Initial scenarios may include:
+
+```text
+baseline
+low glucose
+lipid-rich
+low glucose + lipid-rich
+```
+
+These conditions are intended to represent simplified extracellular nutrient environments rather than complete dietary states.
+
+For each condition, flux distributions and predicted growth rates will be compared between PDAC-specific and normal pancreatic models before gene-deletion analysis.
 
 ## Primary Outcome
 
@@ -51,10 +80,16 @@ normal: relative growth > 0.8
 
 These thresholds are used as initial prioritization criteria and will be evaluated through sensitivity analyses.
 
+For each candidate gene, selectivity will additionally be assessed across nutrient environments to distinguish:
+
+```text
+robust vulnerabilities
+environment-specific vulnerabilities
+non-robust predictions
+```
+
 ## Planned Validation
 
 Prioritized metabolic vulnerabilities will be compared with independent cancer dependency data, including DepMap gene-essentiality datasets.
 
-
-
-
+Predictions that are both experimentally supported and robust across multiple nutrient environments will receive higher priority.
