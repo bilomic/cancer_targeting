@@ -15,9 +15,9 @@ print("Status:", solution.status)
 print("Biomass:", solution.objective_value)
 
 # which nutrients is the model using?
-import cobra as cob
+import cobra
 
-pfba_solution = cob.flux_analysis.pfba(model)
+pfba_solution = cobra.flux_analysis.pfba(model)
 
 for rxn_id in medium:
     flux = pfba_solution.fluxes[rxn_id]
@@ -25,7 +25,7 @@ for rxn_id in medium:
     if flux < -1e-6:
         print(rxn_id, model.reactions.get_by_id(rxn_id).name, flux)
 
-# there are some satured uptake bounds. let's isolate them.
+# there are some saturated uptake bounds. let's isolate them.
 
 print("\nuptake reactions at their maximum bound:")
 
@@ -38,7 +38,20 @@ for rxn_id, bound in medium.items():
         if saturation > 0.99:
             rxn = model.reactions.get_by_id(rxn_id)
             print(rxn.name, flux, "saturation", saturation)
-    
+
+saturated_rxn = []
+for rxn_id, bound in medium.items():
+    flux = pfba_solution.fluxes[rxn_id]
+
+    if flux < -1e-6:
+        saturation = -flux / bound
+
+        if saturation > 0.99:
+            rxn = model.reactions.get_by_id(rxn_id)
+            saturated_rxn.append(rxn)
+
+print(f"{len(saturated_rxn)} reactions are saturated.")
+
 # 21 of the uptake reactions are running at their maximum flux of 10. So, the biomass reaction of 20.36 is not a robust prediction.
 # Next step is to restructure the medium function in a way that the organic uptake reactions can vary a little bit.
 
@@ -48,8 +61,8 @@ sensitivity_results = []
 
 for bound in organic_bounds:
     with model:
-        medium = build_hams_medium(organic_uptake=bound)
-        model.medium = medium
+        test_medium = build_hams_medium(organic_uptake=bound)
+        model.medium = test_medium
 
         solution = model.optimize()
 
@@ -69,7 +82,7 @@ sensitivity_df = pd.DataFrame(sensitivity_results)
 print(sensitivity_df)
 
 sensitivity_df.to_csv(
-    "results/medium_sensitivity.csv",
+    "../results/medium_sensitivity.csv",
     index=False
 )
 
@@ -88,10 +101,9 @@ plt.title("Sensitivity of biomass to organic uptake bound")
 plt.xscale("log")
 
 plt.savefig(
-    "results/medium_sensitivity.png",
+    "../results/medium_sensitivity.png",
     dpi=300,
     bbox_inches="tight"
 )
 
 plt.close()
-

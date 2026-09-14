@@ -26,7 +26,7 @@ print("n uptake reactions:", len(medium))
 
 for rxn_id, uptake in list(medium.items())[:10]:
     rxn = model.reactions.get_by_id(rxn_id)
-    print(rxn_id,:verbose map <C-CR> rxn.name, uptake)
+    print(rxn_id, rxn.name, uptake)
 
 # atp exchange reaction
 atp_ex = model.reactions.get_by_id("MAR00569")
