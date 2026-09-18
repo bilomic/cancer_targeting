@@ -19,4 +19,7 @@ wget -c \
   "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE142nnn/GSE142279/suppl/GSE142279_FPKM.xls.gz" \
   -O raw_data/transcriptomics/GSE142279_FPKM.xls.gz
 
-
+# download essential metabolic tasks for ftINIT
+wget \
+	https://github.com/SysBioChalmers/Human-GEM/raw/refs/tags/v2.0.0/data/metabolicTasks/metabolicTasks_Essential.txt \
+	-O raw_data/metabolic_tasks_essential.txt

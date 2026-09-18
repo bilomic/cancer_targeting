@@ -1,1 +1,4 @@
 cobra==0.32.1
+pandas==2.3.3
+raven-toolbox==0.4.0
+gurobipy==13.0.3

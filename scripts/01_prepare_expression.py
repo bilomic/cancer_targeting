@@ -24,7 +24,6 @@ def load_fpkm_data() -> pd.DataFrame:
 
     expression = expression.set_index("ID")
 
-    # Eventuelle Versionssuffixe entfernen, z. B. ENSG00000123456.7
     expression.index = (
         expression.index.astype(str)
         .str.replace(r"\.\d+$", "", regex=True)
@@ -156,13 +155,13 @@ def main() -> None:
         index=False,
     )
 
-    print(f"FPKM-Gene: {len(fpkm)}")
-    print(f"TPM-Gene: {len(tpm)}")
-    print(f"Human-GEM-Gene: {len(model_gene_ids)}")
-    print(f"Überlappende Gene: {len(overlapping_gene_ids)}")
-    print(f"Normalproben: {len(normal_samples)}")
-    print(f"CRC-Proben: {len(crc_samples)}")
-    print("Expressiondaten erfolgreich vorbereitet.")
+    print(f"FPKM-genes: {len(fpkm)}")
+    print(f"TPM-genes: {len(tpm)}")
+    print(f"Human-GEM-genes: {len(model_gene_ids)}")
+    print(f"intersecting genes: {len(overlapping_gene_ids)}")
+    print(f"normal samples: {len(normal_samples)}")
+    print(f"crc samples: {len(crc_samples)}")
+    print("Expression data preparation was successful.")
 
 
 if __name__ == "__main__":

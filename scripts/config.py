@@ -36,3 +36,8 @@ CRC_TPM_PATH = (
 NORMAL_COLON_TPM_PATH = (
     TRANSCRIPTOMICS_RESULTS_DIR / "normal_colon_expression_tpm.tsv"
     )
+
+METABOLIC_TASK_PATH = (
+    PROJECT_ROOT / "raw_data" / "metabolic_tasks_essential.txt"
+)
+
